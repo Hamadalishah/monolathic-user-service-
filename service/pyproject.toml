@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "service"
+version = "0.1.0"
+description = ""
+authors = ["Hamadalishah <hammadalis459@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+sqlmodel = "^0.0.22"
+fastapi = "^0.115.0"
+uvicorn = "^0.31.1"
+python-dotenv = "^1.0.1"
+psycopg2-binary = "^2.9.9"
+types-psycopg2 = "^2.9.21.20240819"
+pydantic = {extras = ["email"], version = "^2.9.2"}
+python-jose = "^3.3.0"
+bcrypt = "^4.2.0"
+passlib = "^1.7.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

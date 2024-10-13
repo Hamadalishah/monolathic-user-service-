@@ -1,0 +1,27 @@
+version: '3.8'
+name: template01
+services:
+  api:
+    build:
+      context: ./user_service
+      dockerfile: Dockerfile
+    volumes:
+      - ./user_service:/code 
+    depends_on:
+        - postgres_db
+    ports:
+      - "8000:8000" 
+  
+  postgres_db:
+    image: postgres:latest  
+    restart: always
+    container_name: PostgresCont
+    environment:
+      POSTGRES_USER: hamad  
+      POSTGRES_PASSWORD: 4535Hamadshah               
+      POSTGRES_DB: postgres                        
+    ports:
+      - '5433:5432'
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    

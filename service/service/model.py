@@ -12,11 +12,10 @@ class User(SQLModel, table=True):
     email:str
     password: str
     
-    
 class update_user(BaseModel):
-    user_name: str 
-    email: EmailStr
-    password: str 
+    user_name: str|None = None
+    email:str|None = None
+    password: str|None = None 
     
 class Token(BaseModel):
     access_token: str

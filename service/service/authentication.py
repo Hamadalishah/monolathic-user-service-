@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from sqlmodel import Session
 from .db import get_session
 from typing import Annotated
-from .crud import db_user
+
 from typing import Optional
 from .model import TokenData
 
@@ -35,7 +35,7 @@ def decode_jwt(token: str) -> dict:
         )
 
 
-def current_user(token: Annotated[str, Depends(auth_scheme)], session: Annotated[Session, Depends(get_session)]):
+async def current_user(token: Annotated[str, Depends(auth_scheme)], session: Annotated[Session, Depends(get_session)]):
     payload = decode_jwt(token)
     username: Optional[str] = payload.get("sub")
     if username is None:
@@ -44,8 +44,9 @@ def current_user(token: Annotated[str, Depends(auth_scheme)], session: Annotated
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
+    from .crud import db_user
     token_data = TokenData(username=username)     
-    user = db_user(session ,username=token_data.username)
+    user = await db_user(session ,username=token_data.username)
 
     if user is None:
         raise HTTPException(
@@ -54,5 +55,6 @@ def current_user(token: Annotated[str, Depends(auth_scheme)], session: Annotated
             headers={"WWW-Authenticate": "Bearer"},
         )
     return user
+
 
         

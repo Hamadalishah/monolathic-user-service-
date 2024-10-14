@@ -5,7 +5,7 @@ from .db import get_session
 from  .model import User,update_user,RegisterUser
 from passlib.context import CryptContext # type: ignore
 from passlib.exc import UnknownHashError
-
+from .authentication import current_user
 pwd_context = CryptContext(schemes=["bcrypt"],deprecated="auto")
 
 
@@ -56,4 +56,12 @@ async def register_user(user:RegisterUser , session: Annotated[Session, Depends(
     return new_user
 
 
-    
+async def user_patch_update(statement,edit_user):
+    if edit_user.user_name is not None and edit_user.user_name != "":
+        statement.user_name = edit_user.user_name
+    if edit_user.email is not None and edit_user.email != "":
+        statement.email = edit_user.email
+    if edit_user.password is not None and edit_user.password != "":
+        statement.password = get_password_hash(edit_user.password)
+    return statement
+        
